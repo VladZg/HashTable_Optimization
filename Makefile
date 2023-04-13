@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -fsanitize=address
+FLAGS = #-fsanitize=address
 
 TARGET = main
 

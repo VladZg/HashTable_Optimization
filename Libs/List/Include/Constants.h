@@ -29,7 +29,7 @@ enum ListElemConstants
 enum ListConstants
 {
     LIST_MIN_CAPACITY  = 10,
-    LIST_MAX_CAPACITY  = 1000,
+    LIST_MAX_CAPACITY  = 100000,
     LIST_DEAD_CAPACITY = 0xDEAD,
     LIST_DEAD_FREE     = 0xDEAD,
     LIST_DEAD_SIZE     = 0,
