@@ -1,0 +1,47 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+enum ListStatuses
+{
+    LIST_IS_OK_STATUS              = 1,
+    LIST_IS_DESTRUCTED_STATUS      = 2,
+    LIST_IS_NULL_STATUS            = 3,
+    LIST_OVERFLOW_STATUS           = 4,
+    HEAD_IND_WRONG_STATUS          = 5,
+    TAIL_IND_WRONG_STATUS          = 6,
+    LIST_FREE_WRONG_STATUS         = 7,
+    LIST_IS_LINEAR_WRONG_STATUS    = 8,
+    LIST_DATA_IS_NULL_STATUS       = 9,
+    LIST_IS_EMPTY_STATUS           = 10,
+    LIST_IS_SOMEWHERE_WRONG_STATUS = 11,
+    LIST_HEAD_IS_WRONG_STATUS      = 12,
+    LIST_TAIL_IS_WRONG_STATUS      = 13,
+};
+
+enum ListElemConstants
+{
+    // LIST_ELEM_POISONED_VALUE = 0xBADDED,
+    LIST_ELEM_FREE = 0xBAAAAD,
+};
+
+#define LIST_ELEM_POISONED_VALUE NULL
+
+enum ListConstants
+{
+    LIST_MIN_CAPACITY  = 10,
+    LIST_MAX_CAPACITY  = 1000,
+    LIST_DEAD_CAPACITY = 0xDEAD,
+    LIST_DEAD_FREE     = 0xDEAD,
+    LIST_DEAD_SIZE     = 0,
+    LIST_DEAD_HEAD_IND = 0xDEAD,
+    LIST_DEAD_TAIL_IND = 0xDEAD,
+};
+
+enum ResizeModes
+{
+    INCREASE_LIST_CAPACITY_MODE = 1,
+    DECREASE_LIST_CAPACITY_MODE = 2,
+    WRONG_RESIZE_MODE           = 0,
+};
+
+#endif
