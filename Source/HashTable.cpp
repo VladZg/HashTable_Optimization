@@ -3,6 +3,7 @@
 
 #include "../Include/Config.h"
 #include <cassert>
+#include "../Include/HashFunctions.h"
 #include "../Include/HashTable.h"
 
 int HashTableCtor(HashTable* hash_table)
@@ -65,15 +66,24 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
             return 0;
         }
 
-        // fprintf(stderr, "%s\n", str);
-
         int list_i = HashFuction(str);
-
         ListPushBack(hash_table->lists + list_i, str);
-        // ListPrint(hash_table->lists + list_i);
     }
 
     return 1;
 }
+
+// int GetHashTableGraphData(HashFunctions* hash_functions, HashTable* hash_table, FILE* file)
+// {
+//     for (int hash_func_i = 0; hash_func_i < hash_functions->n_funcs; hash_func_i++)
+//     {
+//         fprintf(file, "%s,", hash_functions->func_names[hash_func_i]);
+//
+//         int list_i_size = hash_table->lists[hash_func_i].size;
+//         for (int list_i = 0; list_i < hash_table
+//     }
+//
+//     return 1;
+// }
 
 #endif

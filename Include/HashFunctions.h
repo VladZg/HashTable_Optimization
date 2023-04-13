@@ -4,9 +4,16 @@
 #include "./Config.h"
 #include <stdlib.h>
 
-typedef int (*HashFunction)(const char* string);
+typedef int (*HashFunc)(const char* string);
 
 #define N_HASH_FUNCTIONS 4
+
+struct HashFunctions
+{
+    size_t      n_funcs;
+    HashFunc*   funcs;
+    // const char**  func_names;
+};
 
 int HashConst    (const char* string);
 int HashLen      (const char* string);
