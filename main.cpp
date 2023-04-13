@@ -8,6 +8,8 @@
 
 int main()
 {
+    system("cd ./Data; make; cd ../");
+
     FILE* input_file = fopen("./Data/input_text_parsed.txt", "r");
     FILE* output_file = fopen("./Graphs/data.csv", "w");
 
@@ -31,7 +33,7 @@ int main()
         // fprintf(output_file, "%s,", hash_functions.func_names[hash_func_i]);
 
         for (int list_i = 0; list_i < hash_table.size; list_i++)
-            fprintf(output_file, "%5ld, ", hash_table.lists[list_i].size);
+            fprintf(output_file, "%ld,", hash_table.lists[list_i].size);
 
         fprintf(output_file, "\n");
 

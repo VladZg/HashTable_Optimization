@@ -10,6 +10,11 @@ LIBS = ./Libs/List/Source/List.cpp
 
 all: compile run
 
+# parse:
+# 	cd ./Data
+# 	make
+# 	cd ../
+
 compile:
 	g++ ./$(TARGET).cpp $(SRC_DIR)/HashFunctions.cpp $(SRC_DIR)/HashTable.cpp $(LIBS) $(FLAGS) -o $(TARGET)
 

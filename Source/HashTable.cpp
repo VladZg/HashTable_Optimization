@@ -59,11 +59,11 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
     for (int elem_i = 0; elem_i < n_elems; elem_i++)
     {
         char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-        fscanf(source, "%s", str);
-        if (!str)
+
+        if (!fscanf(source, "%s", str) || !str)
         {
             free(str);
-            return 0;
+            break;
         }
 
         int list_i = HashFuction(str);
