@@ -44,5 +44,7 @@ int main()
     fclose(input_file);
     fclose(output_file);
 
+    // system("cd ./Graphs; make; cd ../");
+
     return 1;
 }

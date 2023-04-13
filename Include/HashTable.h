@@ -4,6 +4,7 @@
 #include "./Config.h"
 #include <stdlib.h>
 #include "../Libs/List/Include/List.h"
+#include "./HashFunctions.h"
 
 enum HashTableConsts
 {
@@ -21,5 +22,6 @@ int HashTableCtor(HashTable* hash_table);
 int HashTableDtor(HashTable* hash_table);
 int HashTableDump(HashTable hash_table);
 int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFuction)(const char*));
+int IsElemInHashTable(const char* value, int hash, HashTable* hash_table);
 
 #endif

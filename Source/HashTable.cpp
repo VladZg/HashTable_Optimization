@@ -3,6 +3,7 @@
 
 #include "../Include/Config.h"
 #include <cassert>
+#include <cstring>
 #include "../Include/HashFunctions.h"
 #include "../Include/HashTable.h"
 
@@ -59,15 +60,23 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
     for (int elem_i = 0; elem_i < n_elems; elem_i++)
     {
         char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
+        assert(str);
 
-        if (!fscanf(source, "%s", str) || !str)
+        if (!fscanf(source, "%s", str))
         {
             free(str);
-            break;
+            return 0;
         }
 
-        int list_i = HashFuction(str);
-        ListPushBack(hash_table->lists + list_i, str);
+        int hash = HashFuction(str);
+
+        // if (IsElemInHashTable(str, hash, hash_table))
+        // {
+        //     free(str);
+        //     continue;
+        // }
+
+        ListPushBack(hash_table->lists + hash, str);
     }
 
     return 1;
@@ -85,5 +94,19 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
 //
 //     return 1;
 // }
+
+int IsElemInHashTable(const char* value, int hash, HashTable* hash_table)
+{
+    assert(value);
+    assert(hash_table);
+
+    List list = hash_table->lists[hash];
+    for (int elem_i = 0; elem_i < list.size; elem_i++)
+    {
+        if (strcmp(list.data[elem_i].value, value)) return 1;
+    }
+
+    return 0;
+}
 
 #endif
