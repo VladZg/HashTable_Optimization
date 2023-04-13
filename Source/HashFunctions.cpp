@@ -6,6 +6,7 @@
 #include "../Include/Config.h"
 #include <stdlib.h>
 #include <cstring>
+#include "../Include/HashTable.h"
 #include "../Include/HashFunctions.h"
 
 int HashConst(const char* string)
@@ -33,5 +34,6 @@ int HashSum(const char* string)
 
     return hash % HASH_TABLE_SIZE;
 }
+
 
 #endif

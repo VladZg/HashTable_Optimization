@@ -1,8 +1,12 @@
-#ifndef HASH_FUNCTIONS_CPP
-#define HASH_FUNCTIONS_CPP
+#ifndef HASH_FUNCTIONS_H
+#define HASH_FUNCTIONS_H
 
 #include "./Config.h"
 #include <stdlib.h>
+
+typedef int (*HashFunction)(const char* string);
+
+#define N_HASH_FUNCTIONS 4
 
 int HashConst    (const char* string);
 int HashLen      (const char* string);
