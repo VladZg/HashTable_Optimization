@@ -7,16 +7,16 @@
 #include "../Include/HashFunctions.h"
 #include "../Include/HashTable.h"
 
-int HashTableCtor(HashTable* hash_table)
+int HashTableCtor(HashTable* hash_table, size_t init_size)
 {
     assert(hash_table);
 
-    hash_table->size = HASH_TABLE_SIZE;
-    hash_table->lists = (List*) calloc(HASH_TABLE_SIZE, sizeof(List));
+    hash_table->size = init_size;
+    hash_table->lists = (List*) calloc(init_size, sizeof(List));
     assert(hash_table->lists);
 
     List* lists = hash_table->lists;
-    for (int list_i = 0; list_i < HASH_TABLE_SIZE; list_i++)
+    for (int list_i = 0; list_i < init_size; list_i++)
         ListCtor(lists + list_i);
 
     return 1;
@@ -27,7 +27,7 @@ int HashTableDtor(HashTable* hash_table)
     assert(hash_table);
 
     List* lists = hash_table->lists;
-    for (int list_i = 0; list_i < HASH_TABLE_SIZE; list_i++)
+    for (int list_i = 0; list_i < hash_table->size; list_i++)
         ListDtor(lists + list_i);
 
     free(hash_table->lists);
@@ -68,7 +68,7 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
             return 0;
         }
 
-        int hash = HashFuction(str);
+        int hash = HashFuction(str) % hash_table->size;
 
         // if (IsElemInHashTable(str, hash, hash_table))
         // {

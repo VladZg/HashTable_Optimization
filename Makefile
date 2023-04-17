@@ -16,7 +16,7 @@ all: compile run
 # 	cd ../
 
 compile:
-	g++ ./$(TARGET).cpp $(SRC_DIR)/HashFunctions.cpp $(SRC_DIR)/HashTable.cpp $(LIBS) $(FLAGS) -o $(TARGET)
+	g++ ./$(TARGET).cpp $(SRC_DIR)/*.cpp $(LIBS) $(FLAGS) -o $(TARGET)
 
 run:
 	./$(TARGET)

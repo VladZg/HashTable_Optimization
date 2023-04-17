@@ -8,8 +8,9 @@
 
 enum HashTableConsts
 {
-    HASH_TABLE_SIZE = 100,
-    HASH_MAX_STRLEN = 255,
+    // HASH_TABLE_SIZE      = 100,
+    HASH_MAX_STRLEN      = 255,
+    HASH_TABLE_LIST_SIZE = 2  ,
 };
 
 struct HashTable
@@ -18,7 +19,7 @@ struct HashTable
     List*  lists;
 };
 
-int HashTableCtor(HashTable* hash_table);
+int HashTableCtor(HashTable* hash_table, size_t init_size);
 int HashTableDtor(HashTable* hash_table);
 int HashTableDump(HashTable hash_table);
 int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFuction)(const char*));
