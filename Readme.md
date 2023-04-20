@@ -21,82 +21,74 @@
 
 #### Постоянное значение
 
- int HashConst(const char* string)
- {
-     return CONSTANT_HASH;
- }
+    int HashConst(const char* string)
+    {
+        return CONSTANT_HASH;
+    }
 
 #### Длина строки
 
- int HashLen(const char* string)
- {
-     return (int)strlen(string);
- }
+    int HashLen(const char* string)
+    {
+        return (int)strlen(string);
+    }
 
 #### Первый символ
 
- int HashFirstSymb(const char* string)
- {
-     return (int)string[0];
- }
+    int HashFirstSymb(const char* string)
+    {
+        return (int)string[0];
+    }
 
 #### Контрольная сумма
 
- int HashSum(const char* string)
- {
-     int hash = 0;
-     size_t len = strlen(string);
-
-     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-         hash+=string[symbol_i];
-
-     return hash;
- }
+    int HashSum(const char* string)
+    {
+        int hash = 0;
+        size_t len = strlen(string);
+        for (int symbol_i = 0; symbol_i < len; symbol_i++)
+            hash+=string[symbol_i];
+        return hash;
+    }
 
 #### Циклический сдвиг влево
 
- int HashRol(const char* string)
- {
-     int hash = 0;
-     size_t len = strlen(string);
-
-     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-         hash = ROL(hash, 1) ^ string[symbol_i];
-
-     return hash;
- }
+    int HashRol(const char* string)
+    {
+        int hash = 0;
+        size_t len = strlen(string);
+        for (int symbol_i = 0; symbol_i < len; symbol_i++)
+            hash = ROL(hash, 1) ^ string[symbol_i];
+        return hash;
+    }
 
 #### Циклический сдвиг вправо
 
- int HashRor(const char* string)
- {
-     int hash = 0;
-     size_t len = strlen(string);
-
-     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-         hash = ROR(hash, 1) ^ string[symbol_i];
-
-     return hash;
- }
+    int HashRor(const char* string)
+    {
+        int hash = 0;
+        size_t len = strlen(string);
+        for (int symbol_i = 0; symbol_i < len; symbol_i++)
+            hash = ROR(hash, 1) ^ string[symbol_i];
+        return hash;
+    }
 
 #### ... (собственная функция хэширования)
 
- int MyHash(const char* string)
- {
-     int hash = 0, i;
-     int rotate = 2;
-     int seed = 0x1A4E41U;
-     int len = strlen(string);
-
-     for (int i = 0; i < len; i++)
-     {
-         hash += sTable[(string[i] + i) & 255];
-         hash = (hash << (32 - rotate) ) | (hash >> rotate);
-         hash = (hash + i) * seed;
-     }
-
-   return (hash + len) * seed;
- }
+    int MyHash(const char* string)
+    {
+        int hash = 0, i;
+        int rotate = 2;
+        int seed = 0x1A4E41U;
+        int len = strlen(string);
+        for (int i = 0; i < len; i++)
+        {
+            hash += sTable[(string[i] + i) & 255];
+            hash = (hash << (32 - rotate) ) | (hash >> rotate);
+            hash = (hash + i) * seed;
+        }
+      return (hash + len) * seed;
+    }
 
 ### Методы исследования
 
