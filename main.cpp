@@ -26,7 +26,7 @@ int main()
     HashTable hash_table = {};
 
     HashFunc hash_functions_set[N_HASH_FUNCTIONS] = {HashConst, HashLen, HashFirstSymb, HashSum, HashRol, HashRol, MyHash};
-    // const char hash_functions_names[N_HASH_FUNCTIONS][10] = {"const", "length", "ascii", "sum"};
+    // const char hash_functions_names[N_HASH_FUNCTIONS][10] = {"const", "length", "ascii", "sum", "rol", "ror", "myhash"};
     HashFunctions hash_functions = {N_HASH_FUNCTIONS, hash_functions_set};
     // hash_functions.func_names = hash_functions_names;
 
