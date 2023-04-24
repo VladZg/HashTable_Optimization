@@ -1,10 +1,10 @@
 #ifndef HASH_FUNCTIONS_H
 #define HASH_FUNCTIONS_H
 
-#include "./Config.h"
+#include "../Config.h"
 #include <stdlib.h>
 
-typedef int (*HashFunc)(const char* string);
+typedef int (*HashFunc)(const char* value);
 
 #define N_HASH_FUNCTIONS 7
 
@@ -15,18 +15,12 @@ struct HashFunctions
     // const char**  func_names;
 };
 
-int HashConst    (const char* string);
-int HashLen      (const char* string);
-int HashFirstSymb(const char* string);
-int HashSum      (const char* string);
-int HashRol      (const char* string);
-int HashRor      (const char* string);
-int MyHash       (const char* string);
-
-// int HashConst(const char* string)
-// {
-//     return CONSTANT_HASH;
-// }
-
+int HashConst    (const char* value);
+int HashLen      (const char* value);
+int HashFirstSymb(const char* value);
+int HashSum      (const char* value);
+int HashRol      (const char* value);
+int HashRor      (const char* value);
+int MyHash       (const char* value);
 
 #endif

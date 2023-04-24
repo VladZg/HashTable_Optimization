@@ -1,6 +1,7 @@
 #include "../Include/Config.h"
 #include <stdlib.h>
 #include <cstdio>
+#include <cstring>
 #include "../Include/Constants.h"
 #include "../Include/DefineColourConsts.h"
 #include "../Include/Assert.h"
@@ -88,6 +89,12 @@ int ListCtor(List* list)
     return LIST_IS_OK_STATUS;
 }
 
+static void ListValueDtor(const char* value) {ASSERT(value); free((void*)value);}
+static void ListValueDtor(int         value) {}
+static void ListValueDtor(float       value) {}
+static void ListValueDtor(char        value) {}
+static void ListValueDtor(double      value) {}
+
 int ListDtor(List* list)
 {
     ListVerifyStatus_
@@ -96,7 +103,7 @@ int ListDtor(List* list)
     for (int elem_i = 1; elem_i <= size; elem_i++, (list->size)--)
     {
         // fprintf(stderr, "%s", list->data[elem_i].value);
-        free(list->data[elem_i].value);
+        ListValueDtor(list->data[elem_i].value);
         list->data[elem_i].value = nullptr;
     }
 
@@ -1043,4 +1050,48 @@ int ListPrint(List* list)
     fprintf(stdout, "\n");
 
     return LIST_IS_OK_STATUS;
+}
+
+static int CmpListValue(const char* value1, const char* value2)
+{
+    ASSERT(value1);
+    ASSERT(value2);
+    // printf("%s VS %s\n", value1, value2);
+
+    return strcmp(value1, value2);
+}
+
+static int CmpListValue(int value1, int value2)
+{
+    return value1 == value2;
+}
+
+static int CmpListValue(float value1, float value2)
+{
+    return value1 == value2;
+}
+
+static int CmpListValue(char value1, char value2)
+{
+    return value1 == value2;
+}
+
+static int CmpListValue(double value1, double value2)
+{
+    return value1 == value2;
+}
+
+int FindInList(List* list, Value_t value)
+{
+    ListVerifyStatus_
+
+    for (size_t elem_i = 1; elem_i <= list->size; elem_i++)
+    {
+        // PrintListElemValue(stdout, list->data[elem_i].value);
+        // printf("\n");
+
+        if (!CmpListValue(value, list->data[elem_i].value)) return 1;
+    }
+
+    return 0;
 }

@@ -1,17 +1,25 @@
 #ifndef HASH_TABLE_CPP
 #define HASH_TABLE_CPP
 
-#include "../Include/Config.h"
+#include "../Config.h"
 #include <cassert>
 #include <cstring>
 #include "../Include/HashFunctions.h"
 #include "../Include/HashTable.h"
 
-int HashTableCtor(HashTable* hash_table, size_t init_size)
+static void HashTableVerify(HashTable* hash_table)
 {
     assert(hash_table);
+    assert(hash_table->hash_function);
+}
+
+int HashTableCtor(HashTable* hash_table, size_t init_size, int (*hash_function)(const char*))
+{
+    assert(hash_table);
+    assert(hash_function);
 
     hash_table->size = init_size;
+    hash_table->hash_function = hash_function;
     hash_table->lists = (List*) calloc(init_size, sizeof(List));
     assert(hash_table->lists);
 
@@ -24,7 +32,7 @@ int HashTableCtor(HashTable* hash_table, size_t init_size)
 
 int HashTableDtor(HashTable* hash_table)
 {
-    assert(hash_table);
+    HashTableVerify(hash_table);
 
     List* lists = hash_table->lists;
     for (int list_i = 0; list_i < hash_table->size; list_i++)
@@ -33,7 +41,8 @@ int HashTableDtor(HashTable* hash_table)
     free(hash_table->lists);
     hash_table->lists = nullptr;
     hash_table->size = 0;
-    // *hash_table = nullptr;
+    hash_table->hash_function = nullptr;
+    hash_table = nullptr;
 
     return 1;
 }
@@ -55,8 +64,11 @@ int HashTableDump(HashTable hash_table)
     return 1;
 }
 
-int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFuction)(const char*))
+int FillHashTable(HashTable* hash_table, FILE* source, int n_elems)
 {
+    HashTableVerify(hash_table);
+    assert(source);
+
     for (int elem_i = 0; elem_i < n_elems; elem_i++)
     {
         char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
@@ -68,16 +80,11 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
             return 0;
         }
 
-        int hash = HashFuction(str) % hash_table->size;
-
-        // if (IsElemInHashTable(str, hash, hash_table))
-        // {
-        //     free(str);
-        //     continue;
-        // }
-
+        int hash = hash_table->hash_function(str) % hash_table->size;
         ListPushBack(hash_table->lists + hash, str);
     }
+
+    fseek(source, 0, SEEK_SET);
 
     return 1;
 }
@@ -95,18 +102,16 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems, int (*HashFu
 //     return 1;
 // }
 
-int IsElemInHashTable(const char* value, int hash, HashTable* hash_table)
+int FindInHashTable(const char* value, HashTable* hash_table)
 {
+    HashTableVerify(hash_table);
     assert(value);
-    assert(hash_table);
+    assert(hash_table->size);
 
+    int hash = hash_table->hash_function(value) % hash_table->size;
     List list = hash_table->lists[hash];
-    for (int elem_i = 0; elem_i < list.size; elem_i++)
-    {
-        if (strcmp(list.data[elem_i].value, value)) return 1;
-    }
 
-    return 0;
+    return FindInList(&list, value);
 }
 
 #endif

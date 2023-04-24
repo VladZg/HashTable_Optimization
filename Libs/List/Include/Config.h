@@ -8,6 +8,6 @@
 // #define NDUMP
 // #define NOPEN_DUMPS
 
-typedef char* Value_t;
+typedef const char* Value_t;
 
 #endif

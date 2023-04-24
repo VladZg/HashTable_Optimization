@@ -1,7 +1,7 @@
 CC = g++
-FLAGS = #-fsanitize=address
+FLAGS = #-fsanitize=leak
 
-TARGET = main
+TARGET = app
 
 SRC_DIR = ./Source
 OBJ_DIR = ./Object
@@ -16,13 +16,13 @@ all: compile run
 # 	cd ../
 
 compile:
-	g++ ./$(TARGET).cpp $(SRC_DIR)/*.cpp $(LIBS) $(FLAGS) -o $(TARGET)
+	@g++ $(SRC_DIR)/*.cpp $(LIBS) ./$(TARGET).cpp $(FLAGS) -o $(TARGET)
 
 run:
-	./$(TARGET)
+	@./$(TARGET)
 
 valgrind_check:
-	g++ ./main.cpp ./Source/HashFunctions.cpp ./Source/HashTable.cpp ./Libs/List/Source/List.cpp -g -O0 -o vgcheck
+	g++ $(SRC_DIR)/*.cpp $(LIBS) ./$(TARGET).cpp -g -O0 -o vgcheck
 	valgrind ./vgcheck
 
 clean:

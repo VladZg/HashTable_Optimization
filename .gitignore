@@ -1,4 +1,4 @@
 /Object
-/main
+/app
 /vgcheck
-/Callgrind
+/Valgrind

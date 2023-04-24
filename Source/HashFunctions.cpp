@@ -3,7 +3,7 @@
 
 #define CONSTANT_HASH 17
 
-#include "../Include/Config.h"
+#include "../Config.h"
 #include <stdlib.h>
 #include <cstring>
 #include "../Include/HashTable.h"
@@ -19,64 +19,64 @@
 //     }
 // }
 
-static int ROL(int a, int offset)
+static int ROL(int value, int offset)
 {
-    return (a << offset) | (a >> (32 - offset));
+    return (value << offset) | (value >> (32 - offset));
 }
 
-static int ROR(int a, int offset)
+static int ROR(int value, int offset)
 {
-    return (a >> offset) | (a << (32 - offset));
+    return (value >> offset) | (value << (32 - offset));
 }
 
-int HashConst(const char* string)
+int HashConst(const char* value)
 {
     return CONSTANT_HASH;
 }
 
-int HashLen(const char* string)
+int HashLen(const char* value)
 {
-    return (int)strlen(string);
+    return (int)strlen(value);
 }
 
-int HashFirstSymb(const char* string)
+int HashFirstSymb(const char* value)
 {
-    return (int)string[0];
+    return (int)value[0];
 }
 
-int HashSum(const char* string)
+int HashSum(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
-    size_t len = strlen(string);
+    size_t len = strlen(value);
 
     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash+=string[symbol_i];
+        hash += value[symbol_i];
 
     return hash;
 }
 
-int HashRol(const char* string)
+int HashRol(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
-    size_t len = strlen(string);
+    size_t len = strlen(value);
 
     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROL(hash, 1) ^ string[symbol_i];
+        hash = ROL(hash, 1) ^ value[symbol_i];
         // hash += 2;
 
     return hash;
 }
 
-int HashRor(const char* string)
+int HashRor(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
-    size_t len = strlen(string);
+    size_t len = strlen(value);
 
     for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROR(hash, 1) ^ string[symbol_i];
+        hash = ROR(hash, 1) ^ value[symbol_i];
 
     return hash;
 }
@@ -101,16 +101,16 @@ static const unsigned char sTable[256] =
   0x5e,0x6c,0xa9,0x13,0x57,0x25,0xb5,0xe3,0xbd,0xa8,0x3a,0x01,0x05,0x59,0x2a,0x46
 };
 
-int MyHash(const char* string)
+int MyHash(const char* value)
 {
     int hash = 0, i;
     int rotate = 2;
     int seed = 0x1A4E41U;
-    int len = strlen(string);
+    int len = strlen(value);
 
     for (int i = 0; i < len; i++)
     {
-        hash += sTable[(string[i] + i) & 255];
+        hash += sTable[(value[i] + i) & 255];
         hash = (hash << (32 - rotate) ) | (hash >> rotate);
         hash = (hash + i) * seed;
     }
