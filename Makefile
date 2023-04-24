@@ -1,8 +1,8 @@
 CC = g++
 FLAGS = -O3 -w -fsanitize=leak
 
-# TARGET = HashFuncsAnalyze
-TARGET = HashTableOpt
+TARGET = HashFuncsAnalyze
+# TARGET = HashTableOpt
 
 SRC_DIR = ./Source
 OBJ_DIR = ./Object

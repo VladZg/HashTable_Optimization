@@ -7,7 +7,7 @@
 #include "./Include/HashFunctions.h"
 #include "./Include/HashTable.h"
 
-#define N_LOOPS 200
+#define N_LOOPS 100
 
 static void PrepareData();
 
@@ -27,6 +27,8 @@ int main()
     fscanf(filling_words_file, "%d", &n_filling_words);
     assert(n_filling_words <= HASH_TABLE_MAX_CAPACITY);
     int hash_table_size = (int) ((float)n_filling_words / HashTableListAvgSize);
+    // int hash_table_size =  100; // кринж размер
+    // int hash_table_size =  6673; //простое число (теорема)
     fgetc(filling_words_file);
 
     // printf("%d\n", hash_table_size);

@@ -30,7 +30,8 @@ int main()
     int n_words = 0;
     fscanf(input_file, "%d", &n_words);
     assert(n_words <= HASH_TABLE_MAX_CAPACITY);
-    int hash_table_size = n_words / HASH_TABLE_LIST_SIZE;
+    // int hash_table_size = n_words / HASH_TABLE_LIST_SIZE;
+    int hash_table_size = 100;
     fgetc(input_file);
 
     for (int hash_func_i = 0; hash_func_i < N_HASH_FUNCTIONS; hash_func_i++)
@@ -56,7 +57,7 @@ int main()
     fclose(output_file);
     fclose(input_file);
 
-    // ShowGraphs();
+    ShowGraphs();
 
     return 1;
 }
