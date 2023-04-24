@@ -11,7 +11,7 @@ static void ShowGraphs();
 
 int main()
 {
-    // PrepareData();
+    PrepareData();
 
     FILE* input_file = fopen("./Data/input_text_parsed.txt", "r");
     assert(input_file);
@@ -21,7 +21,7 @@ int main()
 
     HashTable hash_table = {};
 
-    HashFunc hash_functions_set[N_HASH_FUNCTIONS] = {HashConst, HashLen, HashFirstSymb, HashSum, HashRol, HashRor, MyHash};
+    HashFunc hash_functions_set[N_HASH_FUNCTIONS] = {HashConst, HashLen, HashFirstSymb, HashSum, HashRol, HashRor, MyHash, GnuHash};
     // const char hash_functions_names[N_HASH_FUNCTIONS][10] = {"const", "length", "ascii", "sum", "rol", "ror", "myhash"};
     HashFunctions hash_functions = {N_HASH_FUNCTIONS, hash_functions_set};
     // hash_functions.func_names = hash_functions_names;

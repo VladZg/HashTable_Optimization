@@ -118,4 +118,14 @@ int MyHash(const char* value)
   return (hash + len) * seed;
 }
 
+int GnuHash(const char* value)
+{
+    int hash = 5381;
+
+    for (unsigned char c = *value; c != '\0'; c = *++value)
+        hash = hash * 33 + c;
+
+    return hash;
+}
+
 #endif

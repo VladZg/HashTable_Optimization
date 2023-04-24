@@ -6,7 +6,7 @@
 
 typedef int (*HashFunc)(const char* value);
 
-#define N_HASH_FUNCTIONS 7
+#define N_HASH_FUNCTIONS 8
 
 struct HashFunctions
 {
@@ -22,5 +22,6 @@ int HashSum      (const char* value);
 int HashRol      (const char* value);
 int HashRor      (const char* value);
 int MyHash       (const char* value);
+int GnuHash      (const char* value);
 
 #endif
