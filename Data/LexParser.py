@@ -7,20 +7,17 @@ with open("./input_text.txt", "r") as input_file:
 parsed = re.findall(r'[A-Za-z]+', text)     # find all words and skip punctuation marks
 parsed = list(set(parsed))                  # remove repeated words from list
 length = min(10000, len(parsed))
-parsed = random.sample(parsed, length)      # choose 10000 random words from list
 
-# for i in range(len(parsed)):
-#     parsed_i_byte = parsed[i].encode('utf-8')
-#     print(parsed[i], end=": ")
-#     for j in range(len(parsed[i])):
-#         print(parsed_i_byte[j], end=" ")
-#     print()
+filling_words_parsed = random.sample(parsed, length)      # choose 10000 random words from list
+with open("./filling_words.txt", "w") as filling_words_file:
+    filling_words_file.write(str(length) + ' ' + ' '.join(filling_words_parsed))
 
-parsed_text = ' '.join(parsed)              # convert from list to string
+searching_words_parsed = random.sample(parsed, length)
+with open("./searching_words.txt", "w") as searching_words_file:
+    searching_words_file.write(str(length) + ' ' + ' '.join(searching_words_parsed))
 
-with open("./input_text_parsed.txt", "w") as output_file:
-    output_file.write(str(len(parsed)) + ' ')
-    output_file.write(parsed_text)
+# interception = set(filling_words_parsed) & set(searching_words_parsed)
+# print(len(interception))
 
 # with open("./input_text_parsed", "wb") as output_file:
 #     output_file.write((str(length) + '\n').encode())

@@ -14,7 +14,7 @@ int main()
 {
     // PrepareData();
 
-    FILE* input_file = fopen("./Data/input_text_parsed.txt", "r");
+    FILE* input_file = fopen("./Data/filling_words.txt", "r");
     assert(input_file);
 
     FILE* output_file = fopen("./Graphs/data.csv", "w");
@@ -46,6 +46,7 @@ int main()
 
         for (int list_i = 0; list_i < hash_table.size; list_i++)
             fprintf(output_file, "%ld, ", hash_table.lists[list_i].size);
+
         fseek(output_file, -2, SEEK_CUR);
         fprintf(output_file, "\n");
 

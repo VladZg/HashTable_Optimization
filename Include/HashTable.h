@@ -14,6 +14,8 @@ enum HashTableConsts
     HASH_TABLE_MAX_CAPACITY = 10000,
 };
 
+const float HashTableListAvgSize = 1.5;
+
 struct HashTable
 {
     size_t size;

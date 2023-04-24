@@ -10,70 +10,71 @@
 #define N_LOOPS 200
 
 static void PrepareData();
-static void ShowGraphs();
 
 int main()
 {
     // PrepareData();
 
-    FILE* input_file = fopen("./Data/input_text_parsed.txt", "r");
-    assert(input_file);
+    FILE* filling_words_file = fopen("./Data/filling_words.txt", "r");
+    assert(filling_words_file);
+
+    FILE* searching_words_file = fopen("./Data/searching_words.txt", "r");
+    assert(searching_words_file);
 
     HashTable hash_table = {};
 
-    int n_words = 0;
-    fscanf(input_file, "%d", &n_words);
-    assert(n_words <= HASH_TABLE_MAX_CAPACITY);
-    int hash_table_size = n_words / HASH_TABLE_LIST_SIZE;
-    fgetc(input_file);
+    int n_filling_words = 0;
+    fscanf(filling_words_file, "%d", &n_filling_words);
+    assert(n_filling_words <= HASH_TABLE_MAX_CAPACITY);
+    int hash_table_size = (int) ((float)n_filling_words / HashTableListAvgSize);
+    fgetc(filling_words_file);
 
-    // List list = {};
-    // ListCtor(&list);
-    // char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-    // sprintf(str, "%s", "aboba");
-    // // printf("%s\n", str);
-    // ListPushBack(&list, str);
-    // int flag = FindInList(&list, str);
-    // printf("%d\n", flag);
-    // ListDtor(&list);
+    // printf("%d\n", hash_table_size);
+
+    int n_searching_words = 0;
+    fscanf(searching_words_file, "%d", &n_searching_words);
+    fgetc(searching_words_file);
+
+    char* searching_words[n_searching_words] = {};
+    for (int word_i = 0; word_i < n_searching_words; word_i++)
+    {
+        char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
+        fscanf(searching_words_file, "%s ", str);
+        searching_words[word_i] = str;
+        // fprintf(stdout, "%s ", searching_words[word_i]);
+    }
 
     HashTableCtor(&hash_table, hash_table_size, MyHash);
-    FillHashTable(&hash_table, input_file, n_words);
+    FillHashTable(&hash_table, filling_words_file, n_filling_words);
+
+    fclose(filling_words_file);
+    fclose(searching_words_file);
 
     clock_t start, end;
     start = clock();
 
     for (int loop = 0; loop < N_LOOPS; loop++)
     {
-        fscanf(input_file, "%d", &n_words);
-        fgetc(input_file);
-
         int counter = 0;
 
-        for (int word_i = 0; word_i < n_words; word_i++)
+        for (int word_i = 0; word_i < n_searching_words; word_i++)
         {
-            char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-            assert(str);
-
-            fscanf(input_file, "%s ", str);
-
-            int flag = FindInHashTable(str, &hash_table);
+            // fprintf(stdout, "%s ", searching_words[word_i]);
+            int flag = FindInHashTable(searching_words[word_i], &hash_table);
             if (flag) counter++;
-
-            free(str);
         }
 
         // printf("%d\n", counter);
-
-        fseek(input_file, 0, SEEK_SET);
     }
 
     end = clock();
     double seconds = ((double) (end - start)) / CLOCKS_PER_SEC;
     printf("%lf seconds\n", seconds);
 
+    for (int word_i = 0; word_i < n_searching_words; word_i++)
+        free(searching_words[word_i]);
+
     HashTableDtor(&hash_table);
-    fclose(input_file);
 
     return 1;
 }

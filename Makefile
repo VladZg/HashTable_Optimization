@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -O3 -w #-fsanitize=leak
+FLAGS = -O3 -w -fsanitize=leak
 
 # TARGET = HashFuncsAnalyze
 TARGET = HashTableOpt
@@ -27,7 +27,7 @@ valgrind_check:
 	valgrind ./vgcheck
 
 callgrind_check:
-	valgrind --tool=callgrind ./$(TARGET)
+	valgrind --tool=callgrind ./HashTableOpt
 #    kcachegrind callgrind.out
 # mv callgrind.out ./Valgrind
 
