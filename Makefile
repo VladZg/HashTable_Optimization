@@ -1,7 +1,8 @@
 CC = g++
-FLAGS = #-fsanitize=leak
+FLAGS = -O3 -w #-fsanitize=leak
 
-TARGET = app
+# TARGET = HashFuncsAnalyze
+TARGET = HashTableOpt
 
 SRC_DIR = ./Source
 OBJ_DIR = ./Object
@@ -25,5 +26,10 @@ valgrind_check:
 	g++ $(SRC_DIR)/*.cpp $(LIBS) ./$(TARGET).cpp -g -O0 -o vgcheck
 	valgrind ./vgcheck
 
+callgrind_check:
+	valgrind --tool=callgrind ./$(TARGET)
+#    kcachegrind callgrind.out
+# mv callgrind.out ./Valgrind
+
 clean:
-	rm main
+	rm ./$(TARGET)

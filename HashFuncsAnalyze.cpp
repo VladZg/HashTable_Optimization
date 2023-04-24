@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cassert>
+#include <time.h>
 #include "./Libs/List/Include/List.h"
 #include "./Include/HashFunctions.h"
 #include "./Include/HashTable.h"
@@ -11,7 +12,7 @@ static void ShowGraphs();
 
 int main()
 {
-    PrepareData();
+    // PrepareData();
 
     FILE* input_file = fopen("./Data/input_text_parsed.txt", "r");
     assert(input_file);
@@ -52,51 +53,9 @@ int main()
     }
 
     fclose(output_file);
-
-    // List list = {};
-    // ListCtor(&list);
-    // char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-    // sprintf(str, "%s", "aboba");
-    // // printf("%s\n", str);
-    // ListPushBack(&list, str);
-    // int flag = FindInList(&list, str);
-    // printf("%d\n", flag);
-    // ListDtor(&list);
-
-//     fscanf(input_file, "%d", &n_words);
-//     fgetc(input_file);
-//     HashTableCtor(&hash_table, hash_table_size, hash_functions.funcs[6]);
-//     FillHashTable(&hash_table, input_file, n_words);
-//
-//     for (int loop = 0; loop < 1; loop++)
-//     {
-//         fscanf(input_file, "%d", &n_words);
-//         fgetc(input_file);
-//
-//         int counter = 0;
-//
-//         for (int word_i = 0; word_i < n_words; word_i++)
-//         {
-//             char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-//             assert(str);
-//
-//             fscanf(input_file, "%s ", str);
-//
-//             int flag = FindInHashTable(str, &hash_table);
-//             if (flag) counter++;
-//
-//             free(str);
-//         }
-//
-//         printf("%d\n", counter);
-//
-//         fseek(input_file, 0, SEEK_SET);
-//     }
-//
-//     HashTableDtor(&hash_table);
     fclose(input_file);
 
-    ShowGraphs();
+    // ShowGraphs();
 
     return 1;
 }

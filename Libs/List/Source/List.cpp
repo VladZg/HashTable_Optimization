@@ -1083,7 +1083,7 @@ static int CmpListValue(double value1, double value2)
 
 int FindInList(List* list, Value_t value)
 {
-    ListVerifyStatus_
+    // ListVerifyStatus_
 
     for (size_t elem_i = 1; elem_i <= list->size; elem_i++)
     {
