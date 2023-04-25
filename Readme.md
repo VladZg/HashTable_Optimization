@@ -1,15 +1,18 @@
-# Работа "Оптимизация хэш-таблицы"
+# Работа "Исследование и оптимизация поиска в хеш-таблице"
 
 ## Цель работы
 
 - Изучить работу хэш-таблиц
-- Сравнить различные хэш-функции
-- Оптимизировать алгоритм поиска слова в хэш-таблице при помощи AVX инструкций, ассемблерных вставок и ассемблерных функций.
+- Сравнить работу различных хэш-функций
+- Оптимизировать поиск слов в хеш-таблице
 
 ## Теоретическая справка
 
-Хэш-таблица - ...
-Хэш-функция - ...
+**Хэш-функция** - функция, преобразующая входной массив данных в некоторую битовую строку по заданному алгоритму. Такое преобразование называется **хешированием**.
+
+**Хэш-таблица** - структура данных, хранящая пары (ключ, значение), позволяющая выполнять 3 операции: добавление новой пары, удаление пары и поиск по ключу. Существуют 2 основных варианта хеш-таблиц: с открытой адресацией и со списками. В первом случае, таблица является массивом значений ``H``, во втором - массивом списков значений ``H``. К таблице привязана хеш-функция. Перед выполнением любой операции значение хешируется и результат: ``i = hash(key) % sizeof(H)`` является индексом в массиве ``H``, в котором и производится операция.
+
+**Коэффицент заполнения хеш-таблицы** - число хранимых в таблице элементов, делённое на размер массива ``H`` - является важной характеристикой, от которой зависит время выполнения операций. В случае идеальной хеш-функции, равновероятно распределяющей значения по ключам, среднее время работы операции поиска элемента составляет ``Θ(1 + α)``, где ``α`` — коэффициент заполнения таблицы.
 
 ## Часть 1. Исследование хэш-фунцкий.
 
@@ -21,74 +24,74 @@
 
 #### ConstHash - постоянное значение
 ```
-    int HashConst(const char* string)
-    {
-        return CONSTANT_HASH;
-    }
+int HashConst(const char* string)
+{
+    return CONSTANT_HASH;
+}
 ```
 #### LenHash - длина строки
 ```
-    int HashLen(const char* string)
-    {
-        return (int)strlen(string);
-    }
+int HashLen(const char* string)
+{
+    return (int)strlen(string);
+}
 ```
 #### FirstSymbHash - первый символ
 ```
-    int HashFirstSymb(const char* string)
-    {
-        return (int)string[0];
-    }
+int HashFirstSymb(const char* string)
+{
+    return (int)string[0];
+}
 ```
 #### SumHash - контрольная сумма
 ```
-    int HashSum(const char* string)
-    {
-        int hash = 0;
-        size_t len = strlen(string);
-        for (int symbol_i = 0; symbol_i < len; symbol_i++)
-            hash+=string[symbol_i];
-        return hash;
-    }
+int HashSum(const char* string)
+{
+    int hash = 0;
+    size_t len = strlen(string);
+    for (int symbol_i = 0; symbol_i < len; symbol_i++)
+        hash+=string[symbol_i];
+    return hash;
+}
 ```
 #### RolHash - циклический сдвиг влево
 ```
-    int HashRol(const char* string)
-    {
-        int hash = 0;
-        size_t len = strlen(string);
-        for (int symbol_i = 0; symbol_i < len; symbol_i++)
-            hash = ROL(hash, 1) ^ string[symbol_i];
-        return hash;
-    }
+int HashRol(const char* string)
+{
+    int hash = 0;
+    size_t len = strlen(string);
+    for (int symbol_i = 0; symbol_i < len; symbol_i++)
+        hash = ROL(hash, 1) ^ string[symbol_i];
+    return hash;
+}
 ```
 #### RorHash - циклический сдвиг вправо
 ```
-    int HashRor(const char* string)
-    {
-        int hash = 0;
-        size_t len = strlen(string);
-        for (int symbol_i = 0; symbol_i < len; symbol_i++)
-            hash = ROR(hash, 1) ^ string[symbol_i];
-        return hash;
-    }
+int HashRor(const char* string)
+{
+    int hash = 0;
+    size_t len = strlen(string);
+    for (int symbol_i = 0; symbol_i < len; symbol_i++)
+        hash = ROR(hash, 1) ^ string[symbol_i];
+    return hash;
+}
 ```
 #### ... (собственная функция хэширования)
 ```
-    int MyHash(const char* string)
+int MyHash(const char* string)
+{
+    int hash = 0, i;
+    int rotate = 2;
+    int seed = 0x1A4E41U;
+    int len = strlen(string);
+    for (int i = 0; i < len; i++)
     {
-        int hash = 0, i;
-        int rotate = 2;
-        int seed = 0x1A4E41U;
-        int len = strlen(string);
-        for (int i = 0; i < len; i++)
-        {
-            hash += sTable[(string[i] + i) & 255];
-            hash = (hash << (32 - rotate) ) | (hash >> rotate);
-            hash = (hash + i) * seed;
-        }
-      return (hash + len) * seed;
+        hash += sTable[(string[i] + i) & 255];
+        hash = (hash << (32 - rotate) ) | (hash >> rotate);
+        hash = (hash + i) * seed;
     }
+  return (hash + len) * seed;
+}
 ```
 
 #### GnuHash
