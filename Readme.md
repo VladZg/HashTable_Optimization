@@ -19,29 +19,29 @@
 
 Для исследования были выбраны нижеперечисленные функции. Они принимают строку символов и возвращают её хеш в виде целочисленного значения.
 
-#### Постоянное значение
-
+#### ConstHash - постоянное значение
+```
     int HashConst(const char* string)
     {
         return CONSTANT_HASH;
     }
-
-#### Длина строки
-
+```
+#### LenHash - длина строки
+```
     int HashLen(const char* string)
     {
         return (int)strlen(string);
     }
-
-#### Первый символ
-
+```
+#### FirstSymbHash - первый символ
+```
     int HashFirstSymb(const char* string)
     {
         return (int)string[0];
     }
-
-#### Контрольная сумма
-
+```
+#### SumHash - контрольная сумма
+```
     int HashSum(const char* string)
     {
         int hash = 0;
@@ -50,9 +50,9 @@
             hash+=string[symbol_i];
         return hash;
     }
-
-#### Циклический сдвиг влево
-
+```
+#### RolHash - циклический сдвиг влево
+```
     int HashRol(const char* string)
     {
         int hash = 0;
@@ -61,9 +61,9 @@
             hash = ROL(hash, 1) ^ string[symbol_i];
         return hash;
     }
-
-#### Циклический сдвиг вправо
-
+```
+#### RorHash - циклический сдвиг вправо
+```
     int HashRor(const char* string)
     {
         int hash = 0;
@@ -72,9 +72,9 @@
             hash = ROR(hash, 1) ^ string[symbol_i];
         return hash;
     }
-
+```
 #### ... (собственная функция хэширования)
-
+```
     int MyHash(const char* string)
     {
         int hash = 0, i;
@@ -89,7 +89,20 @@
         }
       return (hash + len) * seed;
     }
+```
 
+#### GnuHash
+```
+    int GnuHash(const char* value)
+    {
+        int hash = 5381;
+
+        for (unsigned char c = *value; c != '\0'; c = *++value)
+            hash = hash * 33 + c;
+
+        return hash;
+    }
+```
 ### Методы исследования
 
 Исследование проводилось на массиве неповторяющихся слов. Для этого был выбран английский словарь, суммарно содержащий около 50000 слов, затем, при помощи python из него было случайным образом выбрано 10000 неповторяющихся слов. Проводилось заполнение хэш-таблицы значениями при помощи каждой из представленных функций. Затем проанализированы гистограммы заселённости, т.е. количества эдементов в каждом из списков хэш-таблицы, в зависимости от хэш-функции, посчитаны среднеквадратичные отклонения и т.д.
