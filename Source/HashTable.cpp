@@ -18,6 +18,7 @@ int HashTableCtor(HashTable* hash_table, size_t init_size, int (*hash_function)(
     assert(hash_table);
     assert(hash_function);
 
+    hash_table->n_words = 0;
     hash_table->size = init_size;
     hash_table->hash_function = hash_function;
     hash_table->lists = (List*) calloc(init_size, sizeof(List));
@@ -41,6 +42,7 @@ int HashTableDtor(HashTable* hash_table)
     free(hash_table->lists);
     hash_table->lists = nullptr;
     hash_table->size = 0;
+    hash_table->n_words = 0;
     hash_table->hash_function = nullptr;
     hash_table = nullptr;
 
@@ -83,8 +85,6 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems)
         int hash = hash_table->hash_function(str) % hash_table->size;
         ListPushBack(hash_table->lists + hash, str);
     }
-
-    fseek(source, 0, SEEK_SET);
 
     return 1;
 }

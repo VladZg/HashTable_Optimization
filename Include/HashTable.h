@@ -18,6 +18,7 @@ const float HashTableListAvgSize = 1.5;
 
 struct HashTable
 {
+    size_t n_words;
     size_t size;
     List*  lists;
     int (*hash_function)(const char*);

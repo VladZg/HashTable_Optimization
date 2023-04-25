@@ -9,42 +9,22 @@
 #include "../Include/HashTable.h"
 #include "../Include/HashFunctions.h"
 
-// static void printf_int_bytes(int a)
-// {
-//     char* b = (char*)(&a);
-//
-//     for (int byte_i = 0; byte_i < 4; byte_i++)
-//     {
-//         fprintf(stdout, "%b", b[byte_i]);
-//     }
-// }
-
-static int ROL(int value, int offset)
-{
-    return (value << offset) | (value >> (32 - offset));
-}
-
-static int ROR(int value, int offset)
-{
-    return (value >> offset) | (value << (32 - offset));
-}
-
-int HashConst(const char* value)
+int ConstHash(const char* value)
 {
     return CONSTANT_HASH;
 }
 
-int HashLen(const char* value)
+int LenHash(const char* value)
 {
     return (int)strlen(value);
 }
 
-int HashFirstSymb(const char* value)
+int FirstSymbHash(const char* value)
 {
     return (int)value[0];
 }
 
-int HashSum(const char* value)
+int SumHash(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
@@ -56,7 +36,12 @@ int HashSum(const char* value)
     return hash;
 }
 
-int HashRol(const char* value)
+static inline int ROL(int value, int offset)
+{
+    return (value << offset) | (value >> (32 - offset));
+}
+
+int RolHash(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
@@ -69,7 +54,12 @@ int HashRol(const char* value)
     return hash;
 }
 
-int HashRor(const char* value)
+static inline int ROR(int value, int offset)
+{
+    return (value >> offset) | (value << (32 - offset));
+}
+
+int RorHash(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
