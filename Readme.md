@@ -46,6 +46,8 @@ int HashConst(const char* string)
     return CONSTANT_HASH;
 }
 ```
+![ConstHash_graph](./Pictures/ConstHash_graph.png)
+
 Недостатки этой функции очевидны, она вообще не распределяет входные данные по спискам.
 
 #### LenHash - длина строки
@@ -55,6 +57,8 @@ int HashLen(const char* string)
     return (int)strlen(string);
 }
 ```
+![LenHash_graph](./Pictures/LenHash_graph.png)
+
 Немного лучше, однако на данном массиве данных функция неэффективна из-за ограниченности длины слов в языке, к тому же влияет распределение слов в английском языке. Так, например, слов длины 3-4 в английском словаре больше остальных. что влияет на неранвомерность рапсределения.
 
 #### FirstSymbHash - первый символ
@@ -64,6 +68,8 @@ int HashFirstSymb(const char* string)
     return (int)string[0];
 }
 ```
+![FirstSymbHash_graph](./Pictures/FirstSymbHash_graph.png)
+
 Показатели дисперсии и стандартного отклонения ещё уменьшились, но функция также является ограниченной, её результат всегда лежит в диапазоне от 0 до 255, к тому же на входном массиве английских слов она может принимать значения от 65 до 122 (английские буквы от A до z).
 
 #### SumHash - контрольная сумма
@@ -77,6 +83,8 @@ int HashSum(const char* string)
     return hash;
 }
 ```
+![SumHash_graph](./Pictures/SumHash_graph.png)
+
 Функция работает уже сильно лучше, и действительно, контрольная сумма применяется уже гораздо чаще предыдущих хеш-функций, например, для проверки входного файла.
 
 #### RolHash - циклический сдвиг влево
@@ -90,6 +98,8 @@ int HashRol(const char* string)
     return hash;
 }
 ```
+![RolHash_graph](./Pictures/RolHash_graph.png)
+
 Чел харошшшш!
 
 #### RorHash - циклический сдвиг вправо
@@ -103,6 +113,8 @@ int HashRor(const char* string)
     return hash;
 }
 ```
+![RorHash_graph](./Pictures/RorHash_graph.png)
+
 Казалось бы, функция похожа на предыдущую и должна давать тоже неплохой результат, однако её эффективность сложно противопоставить RolHash. Интересно...
 
 #### ... (собственная функция хэширования)
@@ -122,6 +134,8 @@ int MyHash(const char* string)
   return (hash + len) * seed;
 }
 ```
+![MyHash_graph](./Pictures/MyHash_graph.png)
+
 Нормас, результат крутой.
 
 #### GnuHash
@@ -136,6 +150,8 @@ int MyHash(const char* string)
         return hash;
     }
 ```
+![GnuHash_graph](./Pictures/GnuHash_graph.png)
+
 Функция показала наилучшие результаты на данном массиве слов.
 
 ### Методы исследования
@@ -146,7 +162,7 @@ int MyHash(const char* string)
 
 Таким образом, различия в хеш-функциях видны невооружённым взглядом, однако приведу некоторые количественные характеристики:
 
-*таблица средних значений, дисперсий, стандартных отклонений*
+![graphs_statistics](./Pictures/graphs_statistics.png)
 
 ### Выводы
 

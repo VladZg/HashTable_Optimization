@@ -8,13 +8,13 @@ fig_arr = []
 plt_arr = []
 # print(data[-1])
 
-hash_funcs_names = ["const", "length", "first", "sum", "rol", "ror", "my_hash", "gnu_hash"]
+hash_funcs_names = ["ConstHash", "LenHash", "FirstSymbHash", "SumHash", "RolHash", "RorHash", "MyHash", "GnuHash"]
 
 is_graph = True
 # is_graph = False
 
 for i in range(len(data)):
-    print('"%10s": avg=%.3lf, var=%.3lf, std=%.3lf' % (str(hash_funcs_names[i]), np.average(data[i]), np.var(data[i]), np.std(data[i])))
+    print('"%15s": avg=%.3lf, var=%.3lf, std=%.3lf' % (str(hash_funcs_names[i]), np.average(data[i]), np.var(data[i]), np.std(data[i])))
 
     if is_graph:
         fig_arr.append(plt.figure(figsize = (3, 3)))
@@ -23,5 +23,7 @@ for i in range(len(data)):
         plt.title(hash_funcs_names[i])
         plt.ylabel("Заселённость, шт")
         plt.xlabel("Номер списка")
+
+# plt.hist([data1, data2], bins=40, stacked=True)
 
 if is_graph: plt.show()

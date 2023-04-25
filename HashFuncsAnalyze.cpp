@@ -38,7 +38,7 @@ int main()
         fscanf(input_file, "%d", &n_words);
         assert(n_words <= HASH_TABLE_MAX_CAPACITY);
         // int hash_table_size = n_words / HASH_TABLE_LIST_SIZE; // good
-        int hash_table_size = 500;  //cringe
+        int hash_table_size = 1000;  //cringe
         fgetc(input_file);
 
         HashTableCtor(&hash_table, hash_table_size, hash_functions_set[hash_func_i]);

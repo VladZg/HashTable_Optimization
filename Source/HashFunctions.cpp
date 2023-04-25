@@ -1,13 +1,13 @@
 #ifndef HASH_FUNCTIONS_H
 #define HASH_FUNCTIONS_H
 
-#define CONSTANT_HASH 17
-
 #include "../Config.h"
 #include <stdlib.h>
 #include <cstring>
 #include "../Include/HashTable.h"
 #include "../Include/HashFunctions.h"
+
+#define CONSTANT_HASH 500
 
 int ConstHash(const char* value)
 {
