@@ -197,7 +197,6 @@ static inline int ROR(int value, int offset)
 int RorHash(const char* value)
 {
     int hash = 0;
-    // size_t symbol_i = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
@@ -247,12 +246,12 @@ int GnuHash(const char* value)
 
 Дисперсия:
 <kbd>
-  <img src="./Pictures/graphs_var.png" width="600" height="450" />
+  <img src="./Pictures/graphs_var.png" width="400" height="300" />
 </kbd>
 
 Стандартное отклонение:
 <kbd>
-  <img src="./Pictures/graphs_std.png" width="600" height="450" />
+  <img src="./Pictures/graphs_std.png" width="400" height="300" />
 </kbd>
 
 Нетрудно видеть, что наименьшие значения дисперсии и стандартного отклонения продемонстрировала функция GnuHash.
