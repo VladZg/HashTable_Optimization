@@ -246,12 +246,12 @@ int GnuHash(const char* value)
 
 Дисперсия:
 <kbd>
-  <img src="./Pictures/graphs_var.png" width="400" height="300" />
+  <img src="./Pictures/graphs_var.png" width="600" height="450" />
 </kbd>
 
 Стандартное отклонение:
 <kbd>
-  <img src="./Pictures/graphs_std.png" width="400" height="300" />
+  <img src="./Pictures/graphs_std.png" width="600" height="450" />
 </kbd>
 
 Нетрудно видеть, что наименьшие значения дисперсии и стандартного отклонения продемонстрировала функция GnuHash.
