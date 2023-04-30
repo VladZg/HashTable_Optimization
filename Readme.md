@@ -41,7 +41,7 @@
 
 Измерения проводятся с хеш-таблицей, содержащей массив структур двухсвязных списков ``lists``, с типом данных ``const char*``:
 
-```
+```C
 typedef const char* Value_t;            // тип данных элемента списка
 
 struct HashTable                        // структура хеш-таблицы
@@ -70,8 +70,8 @@ struct HashTable                        // структура хеш-табли�
 Для исследования были выбраны нижеперечисленные функции. Каждая из них принимает на вход строку символов и возвращает её хеш в виде целочисленного значения.
 
 #### ConstHash - постоянное значение
-```
-int HashConst(const char* string)
+```C
+int ConstHash(const char* value)
 {
     return CONSTANT_HASH;
 }
@@ -81,10 +81,10 @@ int HashConst(const char* string)
 Недостатки этой функции очевидны, она вообще не распределяет входные данные по спискам.
 
 #### LenHash - длина строки
-```
-int HashLen(const char* string)
+```C
+int LenHash(const char* value)
 {
-    return (int)strlen(string);
+    return (int)strlen(value);
 }
 ```
 ![LenHash_graph](./Pictures/LenHash_graph.png)
@@ -92,10 +92,10 @@ int HashLen(const char* string)
 Немного лучше, однако на данном массиве данных функция неэффективна из-за ограниченности длины слов в языке, к тому же влияет распределение слов в английском языке. Так, например, слов длины 3-4 в английском словаре больше остальных. что влияет на неранвомерность рапсределения.
 
 #### FirstSymbHash - первый символ
-```
-int HashFirstSymb(const char* string)
+```C
+int FirstSymbHash(const char* value)
 {
-    return (int)string[0];
+    return (int)value[0];
 }
 ```
 ![FirstSymbHash_graph](./Pictures/FirstSymbHash_graph.png)
@@ -103,13 +103,16 @@ int HashFirstSymb(const char* string)
 Показатели дисперсии и стандартного отклонения ещё уменьшились, но функция также является ограниченной, её результат всегда лежит в диапазоне от 0 до 255, к тому же на входном массиве английских слов она может принимать значения от 65 до 122 (английские буквы от A до z).
 
 #### SumHash - контрольная сумма
-```
-int HashSum(const char* string)
+```C
+int SumHash(const char* value)
 {
     int hash = 0;
-    size_t len = strlen(string);
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash+=string[symbol_i];
+    // size_t symbol_i = 0;
+    size_t len = strlen(value);
+
+    for (int index = 0; index < len; index++)
+        hash += value[index];
+
     return hash;
 }
 ```
@@ -118,13 +121,22 @@ int HashSum(const char* string)
 Функция работает уже сильно лучше, и действительно, контрольная сумма применяется уже гораздо чаще предыдущих хеш-функций, например, для проверки входного файла.
 
 #### RolHash - циклический сдвиг влево
-```
-int HashRol(const char* string)
+```C
+static int ROL(int value, int offset)
+{
+    return (value << offset) | (value >> (32 - offset));
+}
+
+int RolHash(const char* value)
 {
     int hash = 0;
-    size_t len = strlen(string);
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROL(hash, 1) ^ string[symbol_i];
+    // size_t symbol_i = 0;
+    size_t len = strlen(value);
+
+    for (int index = 0; index < len; index++)
+        hash = ROL(hash, 1) ^ value[index];
+        // hash += 2;
+
     return hash;
 }
 ```
@@ -133,31 +145,41 @@ int HashRol(const char* string)
 Чел харошшшш!
 
 #### RorHash - циклический сдвиг вправо
-```
-int HashRor(const char* string)
+```C
+static inline int ROR(int value, int offset)
+{
+    return (value >> offset) | (value << (32 - offset));
+}
+
+int RorHash(const char* value)
 {
     int hash = 0;
-    size_t len = strlen(string);
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROR(hash, 1) ^ string[symbol_i];
+    // size_t symbol_i = 0;
+    size_t len = strlen(value);
+
+    for (int index = 0; index < len; index++)
+        hash = ROR(hash, 1) ^ value[index];
+
     return hash;
 }
+
 ```
 ![RorHash_graph](./Pictures/RorHash_graph.png)
 
 Казалось бы, функция похожа на предыдущую и должна давать тоже неплохой результат, однако её эффективность сложно противопоставить RolHash. Интересно...
 
 #### GnuHash
-```
-    int GnuHash(const char* value)
-    {
-        int hash = 5381;
+```C
+int GnuHash(const char* value)
+{
+    int hash = 5381;
+    int len = strlen(value);
 
-        for (unsigned char c = *value; c != '\0'; c = *++value)
-            hash = hash * 33 + c;
+    for (int index = 0; index < len; index++)
+        hash = hash * 33 + value[index];
 
-        return hash;
-    }
+    return hash;
+}
 ```
 ![GnuHash_graph](./Pictures/GnuHash_graph.png)
 
