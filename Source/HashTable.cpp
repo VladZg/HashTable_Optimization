@@ -7,7 +7,7 @@
 #include "../Include/HashFunctions.h"
 #include "../Include/HashTable.h"
 
-static void HashTableVerify(HashTable* hash_table)
+static void HashTableVerify(const HashTable* hash_table)
 {
     assert(hash_table);
     assert(hash_table->hash_function);
@@ -49,8 +49,10 @@ int HashTableDtor(HashTable* hash_table)
     return 1;
 }
 
-int HashTableDump(HashTable hash_table)
+int HashTableDump(const HashTable hash_table)
 {
+    HashTableVerify(&hash_table);
+
     printf("HashTableDump:\n"
            "{\n"             );
 
@@ -102,14 +104,17 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems)
 //     return 1;
 // }
 
-int FindInHashTable(const char* value, HashTable* hash_table)
+int FindInHashTable(const char* value, HashTable hash_table)
 {
+    #ifndef N_DEBUG
     HashTableVerify(hash_table);
     assert(value);
     assert(hash_table->size);
+    #else
+    #endif
 
-    int hash = hash_table->hash_function(value) % hash_table->size;
-    List list = hash_table->lists[hash];
+    int hash = hash_table.hash_function(value) % hash_table.size;
+    List list = hash_table.lists[hash];
 
     return FindInList(&list, value);
 }

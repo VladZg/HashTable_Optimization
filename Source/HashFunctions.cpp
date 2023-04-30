@@ -30,8 +30,8 @@ int SumHash(const char* value)
     // size_t symbol_i = 0;
     size_t len = strlen(value);
 
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash += value[symbol_i];
+    for (int index = 0; index < len; index++)
+        hash += value[index];
 
     return hash;
 }
@@ -47,8 +47,8 @@ int RolHash(const char* value)
     // size_t symbol_i = 0;
     size_t len = strlen(value);
 
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROL(hash, 1) ^ value[symbol_i];
+    for (int index = 0; index < len; index++)
+        hash = ROL(hash, 1) ^ value[index];
         // hash += 2;
 
     return hash;
@@ -65,8 +65,8 @@ int RorHash(const char* value)
     // size_t symbol_i = 0;
     size_t len = strlen(value);
 
-    for (int symbol_i = 0; symbol_i < len; symbol_i++)
-        hash = ROR(hash, 1) ^ value[symbol_i];
+    for (int index = 0; index < len; index++)
+        hash = ROR(hash, 1) ^ value[index];
 
     return hash;
 }
@@ -93,16 +93,15 @@ static const unsigned char sTable[256] =
 
 int MyHash(const char* value)
 {
-    int hash = 0, i;
-    int rotate = 2;
+    int hash = 0;
     int seed = 0x1A4E41U;
     int len = strlen(value);
 
-    for (int i = 0; i < len; i++)
+    for (int index = 0; index < len; index++)
     {
-        hash += sTable[(value[i] + i) & 255];
-        hash = (hash << (32 - rotate) ) | (hash >> rotate);
-        hash = (hash + i) * seed;
+        hash += sTable[(value[index] + index) & 255];
+        hash = ROR(hash, 2);
+        hash = (hash + index) * seed;
     }
 
   return (hash + len) * seed;
@@ -111,9 +110,19 @@ int MyHash(const char* value)
 int GnuHash(const char* value)
 {
     int hash = 5381;
+    int len = strlen(value);
 
-    for (unsigned char c = *value; c != '\0'; c = *++value)
-        hash = hash * 33 + c;
+    for (int index = 0; index < len; index++)
+        hash = hash * 33 + value[index];
+
+    return hash;
+}
+
+int Crc32Hash(const char* value)
+{
+    int hash = 0xFFFFFFFF;
+
+    // 0x1EDC6F41;
 
     return hash;
 }

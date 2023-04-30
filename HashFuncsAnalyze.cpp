@@ -27,7 +27,7 @@ int main()
 
     HashTable hash_table = {};
     HashFunc hash_functions_set[N_HASH_FUNCTIONS] = {ConstHash, LenHash, FirstSymbHash, SumHash,
-                                                     RolHash  , RorHash, MyHash       , GnuHash };
+                                                     RolHash  , RorHash, GnuHash                };
 
     // const char hash_functions_names[N_HASH_FUNCTIONS][10] = {"const", "length", "ascii", "sum", "rol", "ror", "myhash"};
 
@@ -38,7 +38,7 @@ int main()
         fscanf(input_file, "%d", &n_words);
         assert(n_words <= HASH_TABLE_MAX_CAPACITY);
         // int hash_table_size = n_words / HASH_TABLE_LIST_SIZE; // good
-        int hash_table_size = 1000;  //cringe
+        int hash_table_size = 1000;  //cringe size
         fgetc(input_file);
 
         HashTableCtor(&hash_table, hash_table_size, hash_functions_set[hash_func_i]);

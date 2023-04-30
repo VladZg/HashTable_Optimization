@@ -26,8 +26,8 @@ struct HashTable
 
 int HashTableCtor(HashTable* hash_table, size_t init_size, int (*hash_function)(const char*));
 int HashTableDtor(HashTable* hash_table);
-int HashTableDump(HashTable hash_table);
+int HashTableDump(const HashTable hash_table);
 int FillHashTable(HashTable* hash_table, FILE* source, int n_elems);
-int FindInHashTable(const char* value, HashTable* hash_table);
+int FindInHashTable(const char* value, HashTable hash_table);
 
 #endif

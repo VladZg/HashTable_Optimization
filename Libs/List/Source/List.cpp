@@ -1052,7 +1052,7 @@ int ListPrint(List* list)
     return LIST_IS_OK_STATUS;
 }
 
-static int CmpListValue(const char* value1, const char* value2)
+static inline int CmpListValue(const char* value1, const char* value2)
 {
     ASSERT(value1);
     ASSERT(value2);
@@ -1061,27 +1061,27 @@ static int CmpListValue(const char* value1, const char* value2)
     return strcmp(value1, value2);
 }
 
-static int CmpListValue(int value1, int value2)
+static inline int CmpListValue(int value1, int value2)
 {
     return value1 == value2;
 }
 
-static int CmpListValue(float value1, float value2)
+static inline int CmpListValue(float value1, float value2)
 {
     return value1 == value2;
 }
 
-static int CmpListValue(char value1, char value2)
+static inline int CmpListValue(char value1, char value2)
 {
     return value1 == value2;
 }
 
-static int CmpListValue(double value1, double value2)
+static inline int CmpListValue(double value1, double value2)
 {
     return value1 == value2;
 }
 
-int FindInList(List* list, Value_t value)
+int FindInList(const List* list, Value_t value)
 {
     // ListVerifyStatus_
 

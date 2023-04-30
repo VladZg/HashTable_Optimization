@@ -1,5 +1,5 @@
 CC = g++
-FLAGS = -O3 -w -fsanitize=leak
+FLAGS = -w -O3 #-fsanitize=leak
 
 TARGET = HashFuncsAnalyze
 # TARGET = HashTableOpt
