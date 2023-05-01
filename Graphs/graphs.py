@@ -36,14 +36,22 @@ for i in range(len(data)):
 # if is_graph:
 #     plt.show()
 
-hash_func_names = ["SumHash", "RolHash", "RorHash", "GnuHash"]
+# hash_func_names = ["SumHash", "RolHash", "RorHash", "GnuHash"]
+#
+# plt.bar(hash_func_names, var_arr[3:])
+# plt.xlabel("Хеш-функция")
+# plt.ylabel("Дисперсия")
+# plt.show()
+#
+# plt.bar(hash_func_names, std_arr[3:])
+# plt.xlabel("Хеш-функция")
+# plt.ylabel("Стандартное отклонеение")
+# plt.show()
 
-plt.bar(hash_func_names, var_arr[3:])
-plt.xlabel("Хеш-функция")
-plt.ylabel("Дисперсия")
-plt.show()
+optimization_times = [2.70, 1.80, 1.45]
+optimization_names = ["неоптимизированная версия", "флаг -O3", "уменьшение заселённости"]
 
-plt.bar(hash_func_names, std_arr[3:])
-plt.xlabel("Хеш-функция")
-plt.ylabel("Стандартное отклонеение")
+plt.bar(optimization_names, optimization_times)
+plt.xlabel("Оптимизация")
+plt.ylabel("Время работы программы")
 plt.show()
