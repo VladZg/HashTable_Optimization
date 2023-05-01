@@ -13,7 +13,7 @@
 static void PrepareData();
 static int  FillWordsBufFromFile(FILE* source, char** buf, int n_words);
 static int  WordsBufDtor(char** buf, int n_words);
-static void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words);
+static inline void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words);
 
 #define GetTime(cmds)                                                       \
 {                                                                           \
@@ -88,7 +88,7 @@ static int WordsBufDtor(char** buf, int n_words)
     return 1;
 }
 
-static void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words)
+static inline void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words)
 {
     for (int word_i = 0; word_i < n_searching_words; word_i++)
         int flag = FindInHashTable(searching_words[word_i], hash_table);

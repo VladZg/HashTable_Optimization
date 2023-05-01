@@ -1054,8 +1054,8 @@ int ListPrint(List* list)
 
 static inline int CmpListValue(const char* value1, const char* value2)
 {
-    ASSERT(value1);
-    ASSERT(value2);
+    // ASSERT(value1);
+    // ASSERT(value2);
     // printf("%s VS %s\n", value1, value2);
 
     return strcmp(value1, value2);
