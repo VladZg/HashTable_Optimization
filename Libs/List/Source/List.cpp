@@ -1089,8 +1089,13 @@ int FindInList(const List* list, Value_t value)
     {
         // PrintListElemValue(stdout, list->data[elem_i].value);
         // printf("\n");
+        // printf("%s VS %s; ", value, list->data[elem_i].value);
 
-        if (!CmpListValue(value, list->data[elem_i].value)) return 1;
+        if (!CmpListValue(value, list->data[elem_i].value))
+        {
+            // printf("%s = %s; ", value, list->data[elem_i].value);
+            return 1;
+        }
     }
 
     return 0;

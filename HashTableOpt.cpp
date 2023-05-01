@@ -8,8 +8,21 @@
 #include "./Include/HashTable.h"
 
 #define N_LOOPS 1000
+#define N_WORDS 10000
 
 static void PrepareData();
+static int  FillWordsBufFromFile(FILE* source, char** buf, int n_words);
+static int  WordsBufDtor(char** buf, int n_words);
+static void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words);
+
+#define GetTime(cmds)                                                       \
+{                                                                           \
+    clock_t timer_start = clock();                                          \
+    cmds                                                                    \
+    clock_t timer_end = clock();                                            \
+    double seconds = ((double) (timer_end - timer_start)) / CLOCKS_PER_SEC; \
+    printf("%lf seconds\n", seconds);                                       \
+}
 
 int main()
 {
@@ -23,59 +36,27 @@ int main()
 
     HashTable hash_table = {};
 
-    int n_filling_words = 0;
-    fscanf(filling_words_file, "%d", &n_filling_words);
+    int n_filling_words = N_WORDS;
     assert(n_filling_words <= HASH_TABLE_MAX_CAPACITY);
-    // int hash_table_size = (int) ((float)n_filling_words / HashTableListAvgSize);
-    int hash_table_size =  1000; // кринж размер
-    // int hash_table_size =  6673; //простое число (теорема)
-    fgetc(filling_words_file);
 
-    // printf("%d\n", hash_table_size);
+    int hash_table_size = 1000; // кринж размер
+    // int hash_table_size =  6673; // list_avg_size~1.5, простое число (теорема)
 
-    int n_searching_words = 0;
-    fscanf(searching_words_file, "%d", &n_searching_words);
-    fgetc(searching_words_file);
-
-    char* searching_words[n_searching_words] = {};
-    for (int word_i = 0; word_i < n_searching_words; word_i++)
-    {
-        char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
-        fscanf(searching_words_file, "%s ", str);
-        searching_words[word_i] = str;
-        // fprintf(stdout, "%s ", searching_words[word_i]);
-    }
-
-    HashTableCtor(&hash_table, hash_table_size, MyHash);
+    HashTableCtor(&hash_table, hash_table_size, GnuHash);
     FillHashTable(&hash_table, filling_words_file, n_filling_words);
-
     fclose(filling_words_file);
+
+    int n_searching_words = N_WORDS;
+    char* searching_words[n_searching_words] = {};
+    FillWordsBufFromFile(searching_words_file, searching_words, n_searching_words);
     fclose(searching_words_file);
 
-    clock_t start, end;
-    start = clock();
-
+    GetTime(
     for (int loop = 0; loop < N_LOOPS; loop++)
-    {
-        int counter = 0;
+        RunSearchLoop(hash_table, searching_words, n_searching_words);
+    )
 
-        for (int word_i = 0; word_i < n_searching_words; word_i++)
-        {
-            // fprintf(stdout, "%s ", searching_words[word_i]);
-            int flag = FindInHashTable(searching_words[word_i], hash_table);
-            if (flag) counter++;
-        }
-
-        // printf("%d\n", counter);
-    }
-
-    end = clock();
-    double seconds = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("%lf seconds\n", seconds);
-
-    for (int word_i = 0; word_i < n_searching_words; word_i++)
-        free(searching_words[word_i]);
-
+    WordsBufDtor(searching_words, n_searching_words);
     HashTableDtor(&hash_table);
 
     return 1;
@@ -84,4 +65,31 @@ int main()
 static void PrepareData()
 {
     system("cd ./Data; make; cd ../");
+}
+
+static int FillWordsBufFromFile(FILE* source, char** buf, int n_words)
+{
+    for (int word_i = 0; word_i < n_words; word_i++)
+    {
+        char* str = (char*) calloc(HASH_MAX_STRLEN, sizeof(char));
+        fscanf(source, "%s ", str);
+        buf[word_i] = str;
+        // fprintf(stdout, "%s ", searching_words[word_i]);
+    }
+
+    return 1;
+}
+
+static int WordsBufDtor(char** buf, int n_words)
+{
+    for (int word_i = 0; word_i < n_words; word_i++)
+        free(buf[word_i]);
+
+    return 1;
+}
+
+static void RunSearchLoop(HashTable hash_table, char** searching_words, int n_searching_words)
+{
+    for (int word_i = 0; word_i < n_searching_words; word_i++)
+        int flag = FindInHashTable(searching_words[word_i], hash_table);
 }

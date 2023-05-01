@@ -11,11 +11,11 @@ parsed = random.sample(parsed, 2*length)
 
 filling_words_parsed = random.sample(parsed, length)      # choose 10000 random words from list
 # with open("./filling_words_bin.bin", "bw") as filling_words_file:
-#     filling_words_file.write(str(length) + ' ' + ' '.join(filling_words_parsed))
+#     filling_words_file.write(str(length) + ' '.join(filling_words_parsed))
 
 searching_words_parsed = random.sample(parsed, length)
 # with open("./searching_words_bin.bin", "bw") as searching_words_file:
-#     searching_words_file.write(str(length) + ' ' + ' '.join(searching_words_parsed))
+#     searching_words_file.write(str(length) + ' '.join(searching_words_parsed))
 
 parsed = [str.zfill(32) for str in parsed]
 
