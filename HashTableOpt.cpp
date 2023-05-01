@@ -39,8 +39,9 @@ int main()
     int n_filling_words = N_WORDS;
     assert(n_filling_words <= HASH_TABLE_MAX_CAPACITY);
 
-    int hash_table_size = 1000; // кринж размер
-    // int hash_table_size =  6673; // list_avg_size~1.5, простое число (теорема)
+    // int hash_table_size = 100;
+    // int hash_table_size = 1000; // кринж размер
+    int hash_table_size =  6673; // list_avg_size~1.5, простое число (теорема)
 
     HashTableCtor(&hash_table, hash_table_size, GnuHash);
     FillHashTable(&hash_table, filling_words_file, n_filling_words);
