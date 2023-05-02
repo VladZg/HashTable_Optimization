@@ -571,7 +571,7 @@ int FindInHashTable_avx2(__m256i value, HashTable hash_table)
 ```
 
 <kbd>
-  <img src="./Pictures/asm_code_FindInHashTable.png" width="400" height="700" />
+  <img src="./Pictures/asm_code_FindInHashTable.png" width="200" height="350" />
 
 </kbd>
 
@@ -582,7 +582,7 @@ int FindInHashTable_avx2(__m256i value, HashTable hash_table)
 Всё рано или поздно приходит к своему логическому завершению. Так и наша программа не может постоянно подвергаться новым оптимизациям из-за наличия некоторого предела производительности. Мной было проведено 6 различных оптимизаций, и их результаты наглядно можно представить с помощью гистограммы:
 
 <kbd>
-  <img src="./Pictures/optimisation_results.png" width="400" height="300" />
+  <img src="./Pictures/optimisation_results.png" width="600" height="450" />
 
 </kbd>
 
@@ -591,7 +591,7 @@ int FindInHashTable_avx2(__m256i value, HashTable hash_table)
 Для обоснования того, что поставленная цель работы была достигнута и на этом этапе можно прекратить оптимизировать, приведу более полный скриншот из профилировщика, полученный на последней версии нашей программы. Он содержит все функции, вызываемые из ``main``, но не включённые в расмотрение в предыдущих пунктах:
 
 <kbd>
-  <img src="./Pictures/callgrind_finally.png" width="500" height="550" />
+  <img src="./Pictures/callgrind_finally.png" width="500" height="450" />
 
 </kbd>
 
