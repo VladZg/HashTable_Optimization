@@ -48,8 +48,8 @@ for i in range(len(data)):
 # plt.ylabel("Стандартное отклонеение")
 # plt.show()
 
-optimization_times = [2.70, 1.80, 1.45]
-optimization_names = ["неоптимизированная версия", "флаг -O3", "уменьшение заселённости"]
+optimization_times = [2.70, 1.80, 1.45, 1.38, 1.12, 0.90, 0.84]
+optimization_names = ["неоптимизированная версия", "флаг -O3", "уменьшение заселённости", "ассемблерная GnuHash", "AVX2-инструкции", "аппаратная crc32", "надежда"]
 
 plt.bar(optimization_names, optimization_times)
 plt.xlabel("Оптимизация")
