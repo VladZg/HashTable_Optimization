@@ -3,6 +3,7 @@
 
 #include "../Config.h"
 #include <stdlib.h>
+#include <immintrin.h>
 #include "../Libs/List/Include/List.h"
 #include "./HashFunctions.h"
 
@@ -29,5 +30,8 @@ int HashTableDtor(HashTable* hash_table);
 int HashTableDump(const HashTable hash_table);
 int FillHashTable(HashTable* hash_table, FILE* source, int n_elems);
 int FindInHashTable(const char* value, HashTable hash_table);
+
+int FillHashTable_alligned(HashTable* hash_table, __m256i* buf, int n_elems);
+int FindInHashTable_avx2(__m256i value, HashTable hash_table);
 
 #endif

@@ -1,6 +1,3 @@
-#ifndef UNDEFCOLOURCONSTS_H
-#define UNDEFCOLOURCONSTS_H
-
 #undef KNRM
 #undef KRED
 #undef KGRN
@@ -18,5 +15,3 @@
 #define KMAG  ""
 #define KCYN  ""
 #define KWHT  ""
-
-#endif

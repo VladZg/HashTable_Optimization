@@ -3,6 +3,7 @@
 
 #include "../Config.h"
 #include <stdlib.h>
+#include <immintrin.h>
 
 typedef int (*HashFunc)(const char* value);
 
@@ -26,5 +27,7 @@ int GnuHash      (const char* value);
 int Crc32Hash    (const char* value);
 
 int GnuHash_asm  (const char* value);
+int GnuHash_avx2 (__m256i value);
+
 
 #endif

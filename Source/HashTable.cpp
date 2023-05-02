@@ -91,6 +91,31 @@ int FillHashTable(HashTable* hash_table, FILE* source, int n_elems)
     return 1;
 }
 
+int FillHashTable_alligned(HashTable* hash_table, __m256i* buf, int n_elems)
+{
+    HashTableVerify(hash_table);
+    assert(buf);
+    size_t word_size = sizeof(__m256i);
+
+    for (int elem_i = 0; elem_i < n_elems; elem_i++)
+    {
+        char* str = (char*) malloc(word_size);
+        assert(str);
+
+        memcpy((void*) str, (const void*)(buf + elem_i), word_size);
+
+//         for (int i = 0; i < 32; i++) printf("%c", str[i] == 0 ? '?' : str[i]); printf(" ");
+//
+//         char* arr = (char*) (buf + elem_i);
+//         for (int i = 0; i < sizeof(__m256i); i++) printf("%c", arr[i] == 0 ? '?' : arr[i]); printf("\n");
+
+        int hash = hash_table->hash_function(str) % hash_table->size;
+        ListPushBack(hash_table->lists + hash, str);
+    }
+
+    return 1;
+}
+
 // int GetHashTableGraphData(HashFunctions* hash_functions, HashTable* hash_table, FILE* file)
 // {
 //     for (int hash_func_i = 0; hash_func_i < hash_functions->n_funcs; hash_func_i++)
@@ -116,7 +141,19 @@ int FindInHashTable(const char* value, HashTable hash_table)
     int hash = hash_table.hash_function(value) % hash_table.size;
     List list = hash_table.lists[hash];
 
+    // printf("%d ", hash);
+
     return FindInList(&list, value);
+}
+
+int FindInHashTable_avx2(__m256i value, HashTable hash_table)
+{
+    int hash = GnuHash_asm((char*)(&value)) % hash_table.size;
+    List list = hash_table.lists[hash];
+
+    // printf("%d ", hash);
+
+    return FindInList_avx2(&list, value);
 }
 
 #endif

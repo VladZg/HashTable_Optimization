@@ -4,6 +4,7 @@
 #include "../Config.h"
 #include <stdlib.h>
 #include <cstring>
+#include <immintrin.h>
 #include "../Include/HashTable.h"
 #include "../Include/HashFunctions.h"
 
@@ -118,6 +119,8 @@ int GnuHash_asm(const char* value)
 {
     int hash = 0;
 
+    // printf("%s ", value);
+
     asm
     (
         ".intel_syntax noprefix     \n"
@@ -148,6 +151,13 @@ int GnuHash_asm(const char* value)
         ".att_syntax                \n"
         : "=r" (hash)
     );
+
+    return hash;
+}
+
+int GnuHash_avx2(__m256i value)
+{
+    int hash = 0;
 
     return hash;
 }

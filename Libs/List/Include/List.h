@@ -4,6 +4,7 @@
 #include "./Config.h"
 #include <cstdio>
 #include <stdbool.h>
+#include <immintrin.h>
 #include "./Constants.h"
 
 struct ListElem
@@ -64,5 +65,7 @@ int ListResize (List* list, int resize_mode);
 int ListPrint (List* list);
 
 int FindInList(const List* list, Value_t value);
+int FindInList_avx2(const List* list, __m256i value);
+
 
 #endif

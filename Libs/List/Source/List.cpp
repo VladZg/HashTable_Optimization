@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <cstring>
+#include <avx2intrin.h>
 #include "../Include/Constants.h"
 #include "../Include/DefineColourConsts.h"
 #include "../Include/Assert.h"
@@ -1081,6 +1082,21 @@ static inline int CmpListValue(double value1, double value2)
     return value1 == value2;
 }
 
+static inline int CmpListValue_avx(__m256i value1, __m256i value2)
+{
+//     char* arr1 = (char*) &value1;
+//         for (int i = 0; i < sizeof(__m256i); i++) printf("%c", arr1[i] == 0 ? '?' : arr1[i]); printf(" vs ");
+//
+//     char* arr2 = (char*) &value2;
+//         for (int i = 0; i < sizeof(__m256i); i++) printf("%c", arr2[i] == 0 ? '?' : arr2[i]); printf(" -> ");
+
+    // printf("%d\n", result);
+
+    return !_mm256_testnzc_si256(value1, value2);
+}
+
+#include "../Include/DefineColourConsts.h"
+
 int FindInList(const List* list, Value_t value)
 {
     // ListVerifyStatus_
@@ -1093,10 +1109,50 @@ int FindInList(const List* list, Value_t value)
 
         if (!CmpListValue(value, list->data[elem_i].value))
         {
+            // printf(KGRN "%s\n" KNRM, value);
             // printf("%s = %s; ", value, list->data[elem_i].value);
             return 1;
         }
     }
+
+    // printf(KRED "%s\n" KNRM, value);
+
+    return 0;
+}
+
+int FindInList_avx2(const List* list, __m256i value)
+{
+    // ListVerifyStatus_
+
+    __m256i cur_str = _mm256_setzero_si256();
+
+    for (size_t elem_i = 1; elem_i <= list->size; elem_i++)
+    {
+        // PrintListElemValue(stdout, list->data[elem_i].value);
+        // printf("\n");
+        // printf("%s VS %s; ", value, list->data[elem_i].value);
+
+        // __m256i a = _mm256_set1_epi32(69);'
+
+//         char* arr = (char*) &value;
+//         for (int i = 0; i < sizeof(__m256i); i++) printf("%c", arr[i] == 0 ? '?' : arr[i]); printf(" ");
+//
+        cur_str = _mm256_load_si256((__m256i*) list->data[elem_i].value);
+//         for (int i = 0; i < sizeof(__m256i); i++) printf("%c", a[i] == 0 ? '?' : a[i]); printf("\n");
+
+        // char* arr = (char*) &a;
+        // for (int i = 0; i < sizeof(__m256i); i++) printf("%c ", arr[i]);
+        // printf("\n");
+        // printf("%d/%u: ", elem_i, list->size);
+
+        if (CmpListValue_avx(value, cur_str))
+        {
+            // printf(KGRN "%s\n" KNRM, (char*) &value);
+            return 1;
+        }
+    }
+
+    // printf(KRED "%s\n" KNRM, (char*) &value);
 
     return 0;
 }
