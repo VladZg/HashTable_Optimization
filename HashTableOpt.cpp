@@ -43,7 +43,7 @@ int main()
     // int hash_table_size = 1000; // кринж размер
     int hash_table_size =  6673; // list_avg_size~1.5, простое число (теорема)
 
-    HashTableCtor(&hash_table, hash_table_size, GnuHash);
+    HashTableCtor(&hash_table, hash_table_size, GnuHash_asm);
     FillHashTable(&hash_table, filling_words_file, n_filling_words);
     fclose(filling_words_file);
 
@@ -59,6 +59,12 @@ int main()
 
     WordsBufDtor(searching_words, n_searching_words);
     HashTableDtor(&hash_table);
+
+    // const char str[][10] = {"bdff", "asf", "dsgs", "adfsf", "dskfjn", "dksj", "dsfjn", "afsb"};
+    // for (int i = 0; i < 8; i++)
+    // {
+    //     printf("result: %d, %d\n", GnuHash_asm(str[i]), GnuHash(str[i]));
+    // }
 
     return 1;
 }

@@ -27,7 +27,6 @@ int FirstSymbHash(const char* value)
 int SumHash(const char* value)
 {
     int hash = 0;
-    // size_t symbol_i = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
@@ -44,12 +43,10 @@ static inline int ROL(int value, int offset)
 int RolHash(const char* value)
 {
     int hash = 0;
-    // size_t symbol_i = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
         hash = ROL(hash, 1) ^ value[index];
-        // hash += 2;
 
     return hash;
 }
@@ -62,7 +59,6 @@ static inline int ROR(int value, int offset)
 int RorHash(const char* value)
 {
     int hash = 0;
-    // size_t symbol_i = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
@@ -118,6 +114,44 @@ int GnuHash(const char* value)
     return hash;
 }
 
+int GnuHash_asm(const char* value)
+{
+    int hash = 0;
+
+    asm
+    (
+        ".intel_syntax noprefix     \n"
+
+        "   push r8                 \n"
+        "   push r9                 \n"
+        "   xor rax, rax            \n"
+        "   mov r8d, 5381           \n"     // hash = 5381
+
+        "loop_start:                \n"
+        "   mov al, [rdi]           \n"
+        "   cmp eax, 0              \n"
+        "   je loop_end             \n"     // while(value[index++]!='0'))
+
+        "   mov r9d, r8d            \n"
+        "   shl r8d, 5              \n"
+        "   add r8d, r9d            \n"     // hash *= 33
+        "   add r8d, eax            \n"     // hash += value[index]
+
+        "   inc rdi                 \n"     // index++
+        "   jmp loop_start          \n"
+
+        "loop_end:                  \n"
+        "   mov eax, r8d            \n"
+        "   pop r9                  \n"
+        "   pop r8                  \n"
+
+        ".att_syntax                \n"
+        : "=r" (hash)
+    );
+
+    return hash;
+}
+
 int Crc32Hash(const char* value)
 {
     int hash = 0xFFFFFFFF;
@@ -126,5 +160,10 @@ int Crc32Hash(const char* value)
 
     return hash;
 }
+
+// int main()
+// {
+//     return 1;
+// }
 
 #endif

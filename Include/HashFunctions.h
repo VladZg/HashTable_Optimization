@@ -25,4 +25,6 @@ int MyHash       (const char* value);
 int GnuHash      (const char* value);
 int Crc32Hash    (const char* value);
 
+int GnuHash_asm  (const char* value);
+
 #endif
