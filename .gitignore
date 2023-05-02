@@ -4,3 +4,4 @@
 /vgcheck
 /Valgrind
 /*.out
+/*.s
