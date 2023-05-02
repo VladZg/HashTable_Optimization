@@ -71,7 +71,7 @@ int main()
     // int hash_table_size = 1000; // кринж размер
     int hash_table_size =  6673; // list_avg_size~1.5, простое число (теорема)
 
-    HashTableCtor(&hash_table, hash_table_size, GnuHash_asm);
+    HashTableCtor(&hash_table, hash_table_size, Crc32Hash_asm);
 
 #ifdef NO_AVX
     FillHashTable(&hash_table, filling_words_file, n_filling_words);

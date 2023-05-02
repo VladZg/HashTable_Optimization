@@ -9,7 +9,7 @@ OBJ_DIR = ./Object
 
 LIBS = ./Libs/List/Source/List.cpp
 
-all: compile run
+all: compile link run
 
 # parse:
 # 	cd ./Data
@@ -17,7 +17,14 @@ all: compile run
 # 	cd ../
 
 compile:
-	@g++ $(SRC_DIR)/*.cpp $(LIBS) ./$(TARGET).cpp $(FLAGS) -o $(TARGET)
+	@g++  $(FLAGS) -c $(SRC_DIR)/HashFunctions.cpp -o $(OBJ_DIR)/HashFunctions.o
+	@g++  $(FLAGS) -c $(SRC_DIR)/HashTable.cpp -o $(OBJ_DIR)/HashTable.o
+	@g++  $(FLAGS) -c $(LIBS) -o $(OBJ_DIR)/List.o
+	@g++  $(FLAGS) -c ./HashTableOpt.cpp -o $(OBJ_DIR)/HashTableOpt.o
+	@nasm -f elf64 -g $(SRC_DIR)/Crc32Hash.s -o $(OBJ_DIR)/Crc32Hash.o
+
+link:
+	@g++ $(OBJ_DIR)/*.o -o ./$(TARGET)
 
 run:
 	@./$(TARGET)

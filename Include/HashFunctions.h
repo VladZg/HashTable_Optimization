@@ -24,10 +24,11 @@ int RolHash      (const char* value);
 int RorHash      (const char* value);
 int MyHash       (const char* value);
 int GnuHash      (const char* value);
-int Crc32Hash    (const char* value);
+// int Crc32Hash    (const char* value);
 
 int GnuHash_asm  (const char* value);
 int GnuHash_avx2 (__m256i value);
 
+extern "C" inline int Crc32Hash_asm(const char* value);
 
 #endif

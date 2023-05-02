@@ -162,14 +162,14 @@ int GnuHash_avx2(__m256i value)
     return hash;
 }
 
-int Crc32Hash(const char* value)
-{
-    int hash = 0xFFFFFFFF;
-
-    // 0x1EDC6F41;
-
-    return hash;
-}
+// int Crc32Hash(const char* value)
+// {
+//     int hash = 0xFFFFFFFF;
+//
+//     // 0x1EDC6F41;
+//
+//     return hash;
+// }
 
 // int main()
 // {

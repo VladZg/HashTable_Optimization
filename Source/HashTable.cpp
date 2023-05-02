@@ -139,21 +139,17 @@ int FindInHashTable(const char* value, HashTable hash_table)
     #endif
 
     int hash = hash_table.hash_function(value) % hash_table.size;
-    List list = hash_table.lists[hash];
-
     // printf("%d ", hash);
 
-    return FindInList(&list, value);
+    return FindInList(hash_table.lists + hash, value);
 }
 
 int FindInHashTable_avx2(__m256i value, HashTable hash_table)
 {
-    int hash = GnuHash_asm((char*)(&value)) % hash_table.size;
-    List list = hash_table.lists[hash];
-
+    int hash = Crc32Hash_asm((char*)(&value)) % hash_table.size;
     // printf("%d ", hash);
 
-    return FindInList_avx2(&list, value);
+    return FindInList_avx2(hash_table.lists + hash, value);
 }
 
 #endif
