@@ -1,7 +1,6 @@
 /Object
 /HashTableOpt
 /HashFuncsAnalyze
-/vgcheck
 /Valgrind
-/*.out
 /*.s
+/Asm_check
