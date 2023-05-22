@@ -75,7 +75,7 @@ struct HashTable                        // структура хеш-табли�
 Функция возвращает единственное, ранее определённое значение.
 
 ```C
-int ConstHash(const char* value)
+uint32_t ConstHash(const char* value)
 {
     return CONSTANT_HASH;
 }
@@ -95,9 +95,9 @@ int ConstHash(const char* value)
 Функция возвращает длину входной строки.
 
 ```C
-int LenHash(const char* value)
+uint32_t LenHash(const char* value)
 {
-    return (int)strlen(value);
+    return (uint32_t)strlen(value);
 }
 ```
 
@@ -115,9 +115,9 @@ int LenHash(const char* value)
 Функция возвращает значение певрвого байта входной строки.
 
 ```C
-int FirstSymbHash(const char* value)
+uint32_t FirstSymbHash(const char* value)
 {
-    return (int)value[0];
+    return (uint32_t)value[0];
 }
 ```
 
@@ -135,7 +135,7 @@ int FirstSymbHash(const char* value)
 Функция возвращает сумму байтов входной строки.
 
 ```C
-int SumHash(const char* value)
+uint32_t SumHash(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
@@ -155,26 +155,31 @@ int SumHash(const char* value)
 
 </kbd>
 
-Функция работает уже сильно лучше, и действительно, контрольная сумма применяется уже гораздо чаще предыдущих хеш-функций, например при передаче данных в сети.
+Функция работает лучше остальных, и действительно, контрольная сумма применяется уже гораздо чаще предыдущих хеш-функций, например при передаче данных в сети. Однако, несмотря на кажущуюся эффективность, эта функция, как и предыдущие, оказалась ограниченной, это хорошо видно из графика:
+
+<kbd>
+  <img src="./Pictures/SumHash_graph_full.png" width="600" height="450" />
+
+</kbd>
 
 #### RolHash - циклический сдвиг влево
 
 В своём алгоритме функция использует циклический сдвиг влево.
 
 ```C
-static int ROL(int value, int offset)
+static uint32_t ROL(uint32_t value, uint32_t offset)
 {
     return (value << offset) | (value >> (32 - offset));
 }
 
-int RolHash(const char* value)
+uint32_t RolHash(const char* value)
 {
     int hash = 0;
     // size_t symbol_i = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
-        hash = ROL(hash, 1) ^ value[index];
+        hash = ROL(hash, 1) ^ (uint32_t)value[index];
         // hash += 2;
 
     return hash;
@@ -195,18 +200,18 @@ int RolHash(const char* value)
 Функция аналогична предыдущей, но использует в своём алогритме циклический сдвиг вправо.
 
 ```C
-static inline int ROR(int value, int offset)
+static inline uint32_t ROR(uint32_t value, uint32_t offset)
 {
     return (value >> offset) | (value << (32 - offset));
 }
 
-int RorHash(const char* value)
+uint32_t RorHash(const char* value)
 {
-    int hash = 0;
+    uint32_t hash = 0;
     size_t len = strlen(value);
 
     for (int index = 0; index < len; index++)
-        hash = ROR(hash, 1) ^ value[index];
+        hash = ROR(hash, 1) ^ (uint32_t)value[index];
 
     return hash;
 }
@@ -229,11 +234,11 @@ int RorHash(const char* value)
 ```C
 int GnuHash(const char* value)
 {
-    int hash = 5381;
+    uint32_t hash = 5381;
     int len = strlen(value);
 
     for (int index = 0; index < len; index++)
-        hash = hash * 33 + value[index];
+        hash = hash * 33 + (uint32_t)value[index];
 
     return hash;
 }
